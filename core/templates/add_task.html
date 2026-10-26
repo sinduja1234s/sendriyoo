@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task | Sendriyoo</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 30px 16px;
+            font-family: Arial, sans-serif;
+            background: #F5F6FF;
+            color: #211747;
+        }
+
+        .form-card {
+            max-width: 550px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border: 1px solid #E4E7F5;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px #21174712;
+        }
+
+        h1 { color: #4520A8; }
+
+        label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #DCD7EE;
+            border-radius: 8px;
+            font: inherit;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 24px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #542EB8;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .back {
+            color: #542EB8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-card">
+        <a class="back" href="/">← Back to Dashboard</a>
+
+        <h1>Add New Task</h1>
+        <p>Enter your task details and deadline.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="title">Task Name *</label>
+            <input type="text" id="title" name="title"
+                   maxlength="200" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description"
+                      rows="4"></textarea>
+
+            <label for="deadline">Deadline *</label>
+            <input type="datetime-local" id="deadline"
+                   name="deadline" required>
+
+            <button type="submit">Save Task</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task - Sendriyoo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5F6FF;
+            padding: 30px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
+        h1 { color: #4520A8; }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #E4E7F5;
+            border-radius: 6px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 18px;
+            background: #4520A8;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+        a { color: #4520A8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Task</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Task Title</label>
+            <input type="text" name="title"
+                   value="{{ task.title }}" required>
+
+            <label>Description</label>
+            <textarea name="description"
+                      rows="4">{{ task.description }}</textarea>
+
+            <label>Deadline</label>
+            <input type="datetime-local" name="deadline"
+                   value="{{ task.deadline|date:'Y-m-d\\TH:i' }}"
+                   required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <p><a href="{% url 'home' %}">← Back to Dashboard</a></p>
+    </div>
+</body>
+</html>
