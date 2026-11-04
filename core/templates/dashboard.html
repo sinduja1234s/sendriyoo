@@ -368,11 +368,15 @@
     </button>
 
     <p id="notification-status"></p>
+    <button onclick="playNotificationSound()">
+    Test Sound 🔔
+</button>
 </div>
         </section>
     </main>
     <script>
-function getCookie(name) {
+
+  function getCookie(name) {
     let cookieValue = null;
 
     if (document.cookie) {
@@ -391,6 +395,33 @@ function getCookie(name) {
     }
 
     return cookieValue;
+}let notificationAudioContext;
+
+function playNotificationSound() {
+    const AudioContext =
+        window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContext) return;
+
+    if (!notificationAudioContext) {
+        notificationAudioContext = new AudioContext();
+    }
+
+    notificationAudioContext.resume();
+
+    const oscillator = notificationAudioContext.createOscillator();
+    const gain = notificationAudioContext.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.value = 880;
+
+    gain.gain.value = 0.15;
+
+    oscillator.connect(gain);
+    gain.connect(notificationAudioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(notificationAudioContext.currentTime + 0.3);
 }
 
 async function checkReminders() {
@@ -409,11 +440,13 @@ async function checkReminders() {
 
         const data = await response.json();
 
-        data.reminders.forEach(function(message) {
-            new Notification("💜 Sendriyoo Reminder", {
-                body: message
-            });
-        });
+      data.reminders.forEach(function(message) {
+    playNotificationSound();
+
+    new Notification("💜 Sendriyoo Reminder", {
+        body: message
+    });
+});
 
     } catch (error) {
         console.error("Reminder error:", error);
@@ -426,6 +459,7 @@ function enableNotifications() {
 
         if (permission === "granted") {
             status.innerText = "Notifications enabled!";
+            playNotificationSound();
             checkReminders();
         } else {
             status.innerText = "Notification permission not granted.";
